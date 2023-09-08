@@ -1,0 +1,35 @@
+<!-- child & Dumb component -->
+<h2>{{ title }}</h2>
+<!--it is getting from the parent element  -->
+
+<!-- {{ roomList[0].price }} -->
+<table class="table table-bordered">
+  <tr>
+    <th>Index</th>
+    <th>Evem/Odd</th>
+    <th>Room Type</th>
+    <th>Amenities</th>
+    <th>Room Price</th>
+    <th>Checkin Time</th>
+    <th>Checkout Time</th>
+    <th>Rating</th>
+    <th>Select Room</th>
+  </tr>
+  <tr
+    [ngClass]="e ? 'even' : 'odd'"
+    *ngFor="let room of rooms; let e = even; let o = odd; let i = index"
+  >
+    <td>{{ i + 1 }}</td>
+    <td>{{ e ? "EVEN" : "ODD" }}</td>
+    <td>{{ room.roomType }}</td>
+    <td>{{ room.amenities | titlecase }}</td>
+    <td>{{ room.price | currency : "INR " }}</td>
+    <td>{{ room.checkInTime | date : "dd/MMM/yyyy" }}</td>
+    <td>{{ room.checkOutTime | date : "dd/MMM/yyyy" }}</td>
+    <td>{{ room.rating | number : "1.0-1" }}</td>
+    <td>
+      <button class="btn btn-primary" (click)="selectRoom(room)">Select</button>
+    </td>
+  </tr>
+</table>
+<!-- let room of rooms | slice : 0 : 3 -->

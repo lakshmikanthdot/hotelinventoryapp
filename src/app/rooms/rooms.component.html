@@ -1,0 +1,34 @@
+<!-- <h1>Welcome to {{ hotelName }}</h1> -->
+<app-header></app-header>
+<app-header></app-header>
+<app-header></app-header>
+
+<div [hidden]="hideRooms">
+  Number of Rooms :
+  <div
+    [ngStyle]="{ color: rooms.availableRooms ? 'lightgreen' : 'red' }"
+    [innerText]="numberOfRooms"
+  ></div>
+</div>
+<button class="btn btn-danger" (click)="toggle()">ok</button>
+
+<!-- this is same as in javascript
+document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
+<!-- in javascript <button click="functionName()"></button> -->
+
+<!-- Optional Chaining ?? -->
+<!-- {{ rooms?.availableRooms ?? "No Room" }} -->
+
+<!-- {{ roomList | json }} -->
+<div *ngIf="selectedRoom">{{ selectedRoom | json }}</div>
+<div>
+  <button (click)="addRoom()">Add Room</button>
+</div>
+
+<div *ngIf="rooms.availableRooms > 0">
+  <app-rooms-list
+    [rooms]="roomList"
+    [title]="title"
+    (selectedRoom)="selectRoom($event)"
+  ></app-rooms-list>
+</div>
