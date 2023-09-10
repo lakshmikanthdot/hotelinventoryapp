@@ -1,15 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ContentChild,
+  OnInit,
+} from '@angular/core';
+import { EmployeeComponent } from '../employee/employee.component';
 
 @Component({
   selector: 'app-container',
   templateUrl: './container.component.html',
-  styleUrls: ['./container.component.css']
+  styleUrls: ['./container.component.css'],
 })
-export class ContainerComponent implements OnInit {
+export class ContainerComponent implements OnInit, AfterContentInit {
+  @ContentChild(EmployeeComponent) employee!: EmployeeComponent;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngAfterContentInit(): void {
+    console.log(this.employee);
+    this.employee.empName = 'erik'; // write content and use same design
   }
 
+  ngOnInit(): void {}
 }

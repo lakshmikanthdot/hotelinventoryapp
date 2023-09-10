@@ -10,7 +10,6 @@
     [innerText]="numberOfRooms"
   ></div>
 </div>
-<button class="btn btn-danger" (click)="toggle()">ok</button>
 
 <!-- this is same as in javascript
 document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
@@ -25,10 +24,11 @@ document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
   <button (click)="addRoom()">Add Room</button>
 </div>
 
-<div *ngIf="rooms.availableRooms > 0">
+<div *ngIf="hideRooms">
   <app-rooms-list
     [rooms]="roomList"
     [title]="title"
     (selectedRoom)="selectRoom($event)"
   ></app-rooms-list>
 </div>
+<button class="btn btn-danger" (click)="toggle()">Toggle</button>

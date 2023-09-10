@@ -7,6 +7,7 @@ import {
   ChangeDetectionStrategy,
   OnChanges,
   SimpleChanges,
+  OnDestroy,
 } from '@angular/core';
 import { RoomList } from '../rooms';
 
@@ -16,7 +17,7 @@ import { RoomList } from '../rooms';
   styleUrls: ['./rooms-list.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoomsListComponent implements OnInit, OnChanges {
+export class RoomsListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() rooms: RoomList[] = []; // get the data from parent
 
   @Input() title: string = '';
@@ -35,5 +36,8 @@ export class RoomsListComponent implements OnInit, OnChanges {
 
   selectRoom(room: RoomList) {
     this.selectedRoom.emit(room);
+  }
+  ngOnDestroy(): void {
+    console.log('on destory called');
   }
 }

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { RoomList, Rooms } from './rooms';
 import { HeaderComponent } from '../header/header.component';
+import { RoomsService } from './rooms-list/Services/rooms.service';
 
 @Component({
   selector: 'app-rooms',
@@ -30,6 +31,7 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   roomList: RoomList[] = [];
   // @ViewChild(HeaderComponent, { static: true }) headerComponent!: HeaderComponent;
+
   // ngAfterViewInit
   @ViewChild(HeaderComponent) headerComponent!: HeaderComponent;
 
@@ -37,39 +39,15 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   @ViewChildren(HeaderComponent)
   headerChildernComponent!: QueryList<HeaderComponent>;
 
-  constructor() {}
+  // Dependency injection
+  // general we will create instance
+  // roomservice = new RoomsService();
+
+  constructor(private roomsService: RoomsService) {}
 
   ngOnInit(): void {
+    this.roomList = this.roomsService.getRooms();
     // console.log(this.headerComponent); // undefine if static true then it will give meta data
-    this.roomList = [
-      {
-        roomNumber: 1,
-        roomType: 'Deluxe Room',
-        amenities: 'Free Wifi, Tv, Bathroom, Kitchen',
-        price: 500,
-        checkInTime: new Date('11-march-2023'),
-        checkOutTime: new Date('12-march-2023'),
-        rating: 4.2,
-      },
-      {
-        roomNumber: 2,
-        roomType: 'Deluxe AC Room',
-        amenities: 'A/c, Free Wifi, Tv, Bathroom, Kitchen',
-        price: 1000,
-        checkInTime: new Date('11-march-2023'),
-        checkOutTime: new Date('12-march-2023'),
-        rating: 3.35666,
-      },
-      {
-        roomNumber: 3,
-        roomType: 'Private Room',
-        amenities: 'A/c, Free Wifi, Tv, Bathroom, Kitchen, Personal Workspace',
-        price: 10000,
-        checkInTime: new Date('11-march-2023'),
-        checkOutTime: new Date('12-march-2023'),
-        rating: 4.8,
-      },
-    ];
   }
   // ngDoCheck(): void {
   //   console.log('this is do check On Change called');
