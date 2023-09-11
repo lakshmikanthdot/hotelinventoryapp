@@ -3,6 +3,7 @@ import { RoomList } from '../../rooms';
 import { urlService } from '../../../AppConfig/appconfig.service';
 import { UrlValueInterface } from '../../../AppConfig/appconfig.interface';
 import { HttpClient, HttpRequest } from '@angular/common/http';
+import { shareReplay } from 'rxjs';
 // import { environment } from '../../../../environments/environment';
 
 @Injectable({
@@ -10,6 +11,9 @@ import { HttpClient, HttpRequest } from '@angular/common/http';
 })
 export class RoomsService {
   roomList: RoomList[] = [];
+
+  // replay the last one record which have we have recieved. getrooms is property and $ which is stream. we dont want to call it on ngoninit, which will avoid subscription as well. getRooms$ this in ts file will call only one time
+  getRooms$ = this.http.get<RoomList[]>('/api/rooms').pipe(shareReplay(1));
 
   constructor(
     @Inject(urlService) private url: UrlValueInterface,

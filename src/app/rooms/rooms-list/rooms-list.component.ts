@@ -18,7 +18,8 @@ import { RoomList } from '../rooms';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomsListComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() rooms: RoomList[] = []; // get the data from parent
+  @Input() rooms: RoomList[] | null = []; // get the data from parent
+  // assign null because of the async pipe throw error rooms.component.html
 
   @Input() title: string = '';
 

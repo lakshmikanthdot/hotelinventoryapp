@@ -1,7 +1,9 @@
 <!-- <h1>Welcome to {{ hotelName }}</h1> -->
 <app-header></app-header>
-<app-header></app-header>
-<app-header></app-header>
+<!-- <app-header></app-header>
+<app-header></app-header> -->
+
+<!-- {{ rooms$ | async | json }} -->
 
 <div [hidden]="hideRooms">
   Number of Rooms :
@@ -24,12 +26,30 @@ document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
   <button class="btn btn-success" (click)="addRoom()">Add Room</button>
 </div>
 
-<div *ngIf="hideRooms">
+<!-- <div *ngIf="hideRooms">
   <app-rooms-list
     [rooms]="roomList"
     [title]="title"
     (selectedRoom)="selectRoom($event)"
   ></app-rooms-list>
+</div> -->
+<!-- async as need to subscribe multiple times avoid multilple async pipes on the same stream  -->
+<!-- <div *ngIf="rooms$ | async">
+  <app-rooms-list
+    [rooms]="rooms$ | async"
+    [title]="title"
+    (selectedRoom)="selectRoom($event)"
+  ></app-rooms-list> -->
+
+<div *ngIf="rooms$ | async as room">
+  <app-rooms-list
+    [rooms]="room"
+    [title]="title"
+    (selectedRoom)="selectRoom($event)"
+  ></app-rooms-list>
+  <!-- error modify the ts file rooms-list.compoent.html to @input null
+    the  Type 'RoomList[] | null' is not assignable to type 'RoomList[]'.
+  Type 'null' is not assignable to type 'RoomList[]'.ngtsc(2322) -->
 </div>
 <button class="btn btn-info" (click)="toggle()">Toggle</button>
 <button class="btn btn-primary" (click)="editRoom()">Edit</button>

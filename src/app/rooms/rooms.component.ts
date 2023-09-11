@@ -2,6 +2,7 @@ import {
   AfterViewChecked,
   AfterViewInit,
   Component,
+  OnDestroy,
   OnInit,
   QueryList,
   SkipSelf,
@@ -11,7 +12,7 @@ import {
 import { RoomList, Rooms } from './rooms';
 import { HeaderComponent } from '../header/header.component';
 import { RoomsService } from './rooms-list/Services/rooms.service';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 
 @Component({
@@ -19,7 +20,9 @@ import { HttpEventType } from '@angular/common/http';
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css'],
 })
-export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class RoomsComponent
+  implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy
+{
   hotelName = 'Hilton Hotel';
   numberOfRooms = 10;
   hideRooms = true;
@@ -33,6 +36,9 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   };
 
   totalBytes = 0;
+  subscription!: Subscription;
+
+  rooms$ = this.roomsService.getRooms$;
 
   // instance with interface
   roomList: RoomList[] = [];
@@ -57,25 +63,20 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   // Dependency injection
   // general we will create instance
   // roomservice = new RoomsService();
-
   constructor(@SkipSelf() private roomsService: RoomsService) {}
 
   ngOnInit(): void {
-    // rxjs
+    // this.roomList = this.roomsService.getRooms(); // if we use as http error : Type 'Observable<Object>' is missing the following properties from type 'RoomList[]': length, pop, push, concat, and 27 more.ts(2740)
 
-    this.stream.subscribe({
-      next: (val) => console.log(val),
-      complete: () => console.log('complete'),
-      error: (err) => console.log(err),
-    });
-    this.stream.subscribe((data) => {
-      console.log(data);
-    });
+    // this.roomList = this.roomsService.getRooms(); // load by mock data
+
+    // console.log(this.headerComponent); // undefine if static true then it will give meta data
 
     // http
-
-    this.roomsService.getRooms().subscribe((r) => {
-      this.roomList = r;
+    // this.roomsService.getRooms().subscribe((r) => {
+    // using $steam for one call data availble for 2 places shareReply
+    this.subscription = this.roomsService.getRooms$.subscribe((r) => {
+      // this.roomList = r;
       /* add Roomlist array to remove error in service file 
        getRooms() {
        // return this.roomList;
@@ -85,38 +86,43 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
       */
       // this.roomList = r; // error The 'Object' type is assignable to very few other types. Did you mean to use the 'any' type instead?Type 'Object' is missing the following properties from type 'RoomList[]': length, pop, push, concat, and 28 more.ts(2696) this: this
       // roomlist is array but we are trying to assign the object
-
-      // call http request bu using large dummy api
-
-      this.roomsService.getPhotos().subscribe((event) => {
-        // console.log(event); // HttpHeaderResponse, HttpResponse
-        switch (event.type) {
-          case HttpEventType.Sent: {
-            console.log('Request has been made!');
-            break;
-          }
-          case HttpEventType.ResponseHeader: {
-            console.log('Request Success');
-            break;
-          }
-          case HttpEventType.DownloadProgress: {
-            this.totalBytes += event.loaded;
-            console.log(this.totalBytes);
-
-            break;
-          }
-          case HttpEventType.Response: {
-            console.log(event.body);
-          }
-        }
-      });
     });
 
-    // this.roomList = this.roomsService.getRooms(); // if we use as http error : Type 'Observable<Object>' is missing the following properties from type 'RoomList[]': length, pop, push, concat, and 27 more.ts(2740)
+    // photos
+    // call http request bu using large dummy api
+    this.roomsService.getPhotos().subscribe((event) => {
+      // console.log(event); // HttpHeaderResponse, HttpResponse
+      switch (event.type) {
+        case HttpEventType.Sent: {
+          console.log('Request has been made!');
+          break;
+        }
+        case HttpEventType.ResponseHeader: {
+          console.log('Request Success');
+          break;
+        }
+        case HttpEventType.DownloadProgress: {
+          this.totalBytes += event.loaded;
+          console.log(this.totalBytes);
 
-    // this.roomList = this.roomsService.getRooms(); // load by mock data
+          break;
+        }
+        case HttpEventType.Response: {
+          console.log(event.body);
+        }
+      }
+    });
 
-    // console.log(this.headerComponent); // undefine if static true then it will give meta data
+    // rxjs
+    this.stream.subscribe({
+      next: (val) => console.log(val),
+      complete: () => console.log('complete'),
+      error: (err) => console.log(err),
+    });
+
+    this.stream.subscribe((data) => {
+      console.log(data);
+    });
   }
 
   // ngDoCheck(): void {
@@ -183,6 +189,13 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
     this.roomsService.delete('3').subscribe((data) => {
       this.roomList = data;
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      // any active subscription then it will unsubscribe
+      this.subscription.unsubscribe();
+    }
   }
 }
 

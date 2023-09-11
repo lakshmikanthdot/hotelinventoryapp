@@ -12,13 +12,15 @@ import { RoomsService } from '../rooms/rooms-list/Services/rooms.service';
   selector: 'app-container',
   templateUrl: './container.component.html',
   styleUrls: ['./container.component.css'],
-  providers: [RoomsService],
+  // providers: [RoomsService],
 })
 export class ContainerComponent implements OnInit, AfterContentInit {
   @ContentChild(EmployeeComponent) employee!: EmployeeComponent;
 
-  constructor(@Host() private roomsService: RoomsService) {}
+  constructor() {}
+  // constructor(@Host() private roomsService: RoomsService) {}
 
+  //
   ngAfterContentInit(): void {
     console.log(this.employee);
     this.employee.empName = 'erik'; // write content and use same design
