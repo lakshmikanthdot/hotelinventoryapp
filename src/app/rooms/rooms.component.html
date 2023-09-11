@@ -21,7 +21,7 @@ document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
 <!-- {{ roomList | json }} -->
 <div *ngIf="selectedRoom">{{ selectedRoom | json }}</div>
 <div>
-  <button (click)="addRoom()">Add Room</button>
+  <button class="btn btn-success" (click)="addRoom()">Add Room</button>
 </div>
 
 <div *ngIf="hideRooms">
@@ -31,4 +31,8 @@ document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
     (selectedRoom)="selectRoom($event)"
   ></app-rooms-list>
 </div>
-<button class="btn btn-danger" (click)="toggle()">Toggle</button>
+<button class="btn btn-info" (click)="toggle()">Toggle</button>
+<button class="btn btn-primary" (click)="editRoom()">Edit</button>
+<button class="btn btn-danger" (click)="deleteRoom()">Delete</button>
+
+<h1>{{ totalBytes }} Loaded</h1>

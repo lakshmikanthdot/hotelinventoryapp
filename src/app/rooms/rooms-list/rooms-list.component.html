@@ -25,8 +25,8 @@
     <td>{{ room.roomType }}</td>
     <td>{{ room.amenities | titlecase }}</td>
     <td>{{ room.price | currency : "INR " }}</td>
-    <td>{{ room.checkInTime | date : "dd/MMM/yyyy" }}</td>
-    <td>{{ room.checkOutTime | date : "dd/MMM/yyyy" }}</td>
+    <td>{{ room.checkinTime | date : "dd/MMM/yyyy" }}</td>
+    <td>{{ room.checkoutTime | date : "dd/MMM/yyyy" }}</td>
     <td>{{ room.rating | number : "1.0-1" }}</td>
     <td>
       <button class="btn btn-primary" (click)="selectRoom(room)">Select</button>

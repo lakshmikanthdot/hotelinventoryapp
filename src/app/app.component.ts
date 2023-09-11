@@ -2,11 +2,15 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  Inject,
   OnInit,
+  Optional,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 import { RoomsComponent } from './rooms/rooms.component';
+import { LoggerService } from './logger.service';
+import { LocalStorageToken } from './localstorage.token';
 // import { item } from './rooms/rooms';
 
 @Component({
@@ -22,8 +26,15 @@ export class AppComponent implements OnInit {
 
   @ViewChild('name', { static: true }) name!: ElementRef;
 
+  constructor(
+    @Optional() private loggerService: LoggerService,
+    @Inject(LocalStorageToken) private localStorages: any
+  ) {}
+
   ngOnInit() {
     this.name.nativeElement.innerText = 'Hilton Hotel by element reference';
+    this.loggerService?.log('Appcomponent.NgOnInit() from @Optional()'); // it we not use ? terminery operator Cannot read properties of null (reading 'log')
+    this.localStorages.setItem('Hotel Name', 'Hilton Hotel');
   }
 
   // dynamically load the room component

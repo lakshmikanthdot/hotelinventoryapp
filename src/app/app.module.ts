@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -10,11 +11,25 @@ import { RoomsListComponent } from './rooms/rooms-list/rooms-list.component';
 import { HeaderComponent } from './header/header.component';
 import { ContainerComponent } from './container/container.component';
 import { EmployeeComponent } from './employee/employee.component';
+import { urlService, urlValue } from './AppConfig/appconfig.service';
 
 @NgModule({
-  declarations: [AppComponent, RoomsComponent, RoomsListComponent, HeaderComponent, ContainerComponent, EmployeeComponent],
-  imports: [BrowserModule, AppRoutingModule, FormsModule, BrowserAnimationsModule],
-  providers: [],
+  declarations: [
+    AppComponent,
+    RoomsComponent,
+    RoomsListComponent,
+    HeaderComponent,
+    ContainerComponent,
+    EmployeeComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+  ],
+  providers: [{ provide: urlService, useValue: urlValue }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

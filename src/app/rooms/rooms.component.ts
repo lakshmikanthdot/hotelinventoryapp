@@ -4,12 +4,15 @@ import {
   Component,
   OnInit,
   QueryList,
+  SkipSelf,
   ViewChild,
   ViewChildren,
 } from '@angular/core';
 import { RoomList, Rooms } from './rooms';
 import { HeaderComponent } from '../header/header.component';
 import { RoomsService } from './rooms-list/Services/rooms.service';
+import { Observable } from 'rxjs';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'app-rooms',
@@ -19,7 +22,7 @@ import { RoomsService } from './rooms-list/Services/rooms.service';
 export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   hotelName = 'Hilton Hotel';
   numberOfRooms = 10;
-  hideRooms = false;
+  hideRooms = true;
   selectedRoom!: RoomList;
   title: string = 'Room List';
 
@@ -29,8 +32,20 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
     bookedRooms: 5,
   };
 
+  totalBytes = 0;
+
+  // instance with interface
   roomList: RoomList[] = [];
+
   // @ViewChild(HeaderComponent, { static: true }) headerComponent!: HeaderComponent;
+
+  stream = new Observable<string>((observer) => {
+    observer.next('user1'); // metgod called next means it will emit the new data, who ever sub will get this data
+    observer.next('user2');
+    observer.next('user3');
+    observer.complete();
+    // observer.error('error');
+  });
 
   // ngAfterViewInit
   @ViewChild(HeaderComponent) headerComponent!: HeaderComponent;
@@ -43,12 +58,67 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
   // general we will create instance
   // roomservice = new RoomsService();
 
-  constructor(private roomsService: RoomsService) {}
+  constructor(@SkipSelf() private roomsService: RoomsService) {}
 
   ngOnInit(): void {
-    this.roomList = this.roomsService.getRooms();
+    // rxjs
+
+    this.stream.subscribe({
+      next: (val) => console.log(val),
+      complete: () => console.log('complete'),
+      error: (err) => console.log(err),
+    });
+    this.stream.subscribe((data) => {
+      console.log(data);
+    });
+
+    // http
+
+    this.roomsService.getRooms().subscribe((r) => {
+      this.roomList = r;
+      /* add Roomlist array to remove error in service file 
+       getRooms() {
+       // return this.roomList;
+       // getting data from api
+       return this.http.get<RoomList[]>('/api/rooms');
+       }
+      */
+      // this.roomList = r; // error The 'Object' type is assignable to very few other types. Did you mean to use the 'any' type instead?Type 'Object' is missing the following properties from type 'RoomList[]': length, pop, push, concat, and 28 more.ts(2696) this: this
+      // roomlist is array but we are trying to assign the object
+
+      // call http request bu using large dummy api
+
+      this.roomsService.getPhotos().subscribe((event) => {
+        // console.log(event); // HttpHeaderResponse, HttpResponse
+        switch (event.type) {
+          case HttpEventType.Sent: {
+            console.log('Request has been made!');
+            break;
+          }
+          case HttpEventType.ResponseHeader: {
+            console.log('Request Success');
+            break;
+          }
+          case HttpEventType.DownloadProgress: {
+            this.totalBytes += event.loaded;
+            console.log(this.totalBytes);
+
+            break;
+          }
+          case HttpEventType.Response: {
+            console.log(event.body);
+          }
+        }
+      });
+    });
+
+    // this.roomList = this.roomsService.getRooms(); // if we use as http error : Type 'Observable<Object>' is missing the following properties from type 'RoomList[]': length, pop, push, concat, and 27 more.ts(2740)
+
+    // this.roomList = this.roomsService.getRooms(); // load by mock data
+
     // console.log(this.headerComponent); // undefine if static true then it will give meta data
   }
+
   // ngDoCheck(): void {
   //   console.log('this is do check On Change called');
   //   // throw new Error('Method not implemented.');
@@ -77,15 +147,47 @@ export class RoomsComponent implements OnInit, AfterViewInit, AfterViewChecked {
 
   addRoom() {
     const room: RoomList = {
-      roomNumber: 4,
+      roomNumber: '4',
       roomType: 'Lake View Non A/c Room',
       amenities: ' Free Wifi, Tv, Bathroom, Kitchen, Personal Workspace',
       price: 800,
-      checkInTime: new Date('11-march-2023'),
-      checkOutTime: new Date('12-march-2023'),
+      photos: 'ok',
+      checkinTime: new Date('11-march-2023'),
+      checkoutTime: new Date('12-march-2023'),
       rating: 5,
     };
     // this.roomlist.push(room)
-    this.roomList = [...this.roomList, room];
+    // this.roomList = [...this.roomList, room];
+    this.roomsService.addRoom(room).subscribe((data) => {
+      this.roomList = data;
+    });
+  }
+
+  editRoom() {
+    const room: RoomList = {
+      roomNumber: '3',
+      roomType: 'Lake View Non A/c Room',
+      amenities: ' Free Wifi, Tv, Bathroom, Kitchen, Personal Workspace',
+      price: 800,
+      photos: 'ok',
+      checkinTime: new Date('11-march-2023'),
+      checkoutTime: new Date('12-march-2023'),
+      rating: 5,
+    };
+    this.roomsService.editRoom(room).subscribe((data) => {
+      this.roomList = data;
+    });
+  }
+
+  deleteRoom() {
+    this.roomsService.delete('3').subscribe((data) => {
+      this.roomList = data;
+    });
   }
 }
+
+// rxjs works on push architecture
+
+// push getData -> Continous Stream of Data any modify -> addData directly to stream, stream updated who ever subscribe the stream can get data with out call the data
+
+// pull data = getData -> addData(modify) -> getData
