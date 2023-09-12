@@ -15,6 +15,9 @@ export class RoomsService {
   // replay the last one record which have we have recieved. getrooms is property and $ which is stream. we dont want to call it on ngoninit, which will avoid subscription as well. getRooms$ this in ts file will call only one time
   getRooms$ = this.http.get<RoomList[]>('/api/rooms').pipe(shareReplay(1));
 
+  // error handeling add hotel in api call
+  // getRooms$ = this.http.get<RoomList[]>('/api/hotel').pipe(shareReplay(1));
+
   constructor(
     @Inject(urlService) private url: UrlValueInterface,
     private http: HttpClient

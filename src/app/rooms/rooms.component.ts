@@ -12,7 +12,15 @@ import {
 import { RoomList, Rooms } from './rooms';
 import { HeaderComponent } from '../header/header.component';
 import { RoomsService } from './rooms-list/Services/rooms.service';
-import { Observable, Subscription } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  Subscription,
+  catchError,
+  map,
+  of,
+  throwError,
+} from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 
 @Component({
@@ -38,7 +46,23 @@ export class RoomsComponent
   totalBytes = 0;
   subscription!: Subscription;
 
-  rooms$ = this.roomsService.getRooms$;
+  error$ = new Subject<string>();
+
+  getError$ = this.error$.asObservable();
+
+  rooms$ = this.roomsService.getRooms$.pipe(
+    catchError((err) => {
+      // console.log(err);
+      this.error$.next(err.message);
+      // this.error$.next(err.error);
+      // return throwError(err);
+      return of([]); // Argument of type '(err: any) => void' is not assignable to parameter of type '(err: any, caught: Observable<RoomList[]>) => ObservableInput<any>'.Type 'void' is not assignable to type 'ObservableInput<any>'.ts(2345) function(err: any): void
+    })
+  );
+
+  // map operator
+  // modify stream not subscribing it manually
+  roomsCount$ = this.roomsService.getRooms$.pipe(map((data) => data.length));
 
   // instance with interface
   roomList: RoomList[] = [];
