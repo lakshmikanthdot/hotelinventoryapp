@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { RoomList } from '../../rooms';
 import { urlService } from '../../../AppConfig/appconfig.service';
 import { UrlValueInterface } from '../../../AppConfig/appconfig.interface';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { shareReplay } from 'rxjs';
 // import { environment } from '../../../../environments/environment';
 
@@ -12,8 +12,16 @@ import { shareReplay } from 'rxjs';
 export class RoomsService {
   roomList: RoomList[] = [];
 
+  // pass header
+  // headers = new HttpHeaders({ token: 'luckylove143' }); // use http interceptor
+
   // replay the last one record which have we have recieved. getrooms is property and $ which is stream. we dont want to call it on ngoninit, which will avoid subscription as well. getRooms$ this in ts file will call only one time
-  getRooms$ = this.http.get<RoomList[]>('/api/rooms').pipe(shareReplay(1));
+  getRooms$ = this.http
+    .get<RoomList[]>(
+      '/api/rooms'
+      // { headers: this.headers } // Pass through http interceptors
+    )
+    .pipe(shareReplay(1));
 
   // error handeling add hotel in api call
   // getRooms$ = this.http.get<RoomList[]>('/api/hotel').pipe(shareReplay(1));
@@ -38,7 +46,9 @@ export class RoomsService {
 
   // returing the entire list but in real time only updated one will return
   addRoom(room: RoomList) {
-    return this.http.post<RoomList[]>('/api/rooms', room);
+    return this.http.post<RoomList[]>('/api/rooms', room, {
+      // headers: this.headers,
+    });
   }
 
   editRoom(room: RoomList) {

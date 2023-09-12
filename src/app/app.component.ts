@@ -11,6 +11,7 @@ import {
 import { RoomsComponent } from './rooms/rooms.component';
 import { LoggerService } from './logger.service';
 import { LocalStorageToken } from './localstorage.token';
+import { InitService } from './init.service';
 // import { item } from './rooms/rooms';
 
 @Component({
@@ -28,8 +29,12 @@ export class AppComponent implements OnInit {
 
   constructor(
     @Optional() private loggerService: LoggerService,
-    @Inject(LocalStorageToken) private localStorages: any
-  ) {}
+    @Inject(LocalStorageToken) private localStorages: any,
+    private initService: InitService
+  ) {
+    console.log(initService.config);
+    // console.log(initService.init);
+  }
 
   ngOnInit() {
     this.name.nativeElement.innerText = 'Hilton Hotel by element reference';
