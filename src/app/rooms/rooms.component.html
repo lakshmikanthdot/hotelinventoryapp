@@ -22,9 +22,9 @@ document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
 
 <!-- {{ roomList | json }} -->
 <div *ngIf="selectedRoom">{{ selectedRoom | json }}</div>
-<div>
+<!-- <div>
   <button class="btn btn-success" (click)="addRoom()">Add Room</button>
-</div>
+</div> -->
 <h1>{{ getError$ | async }}</h1>
 <!-- <h1>{{ roomsCount$ }} gives [object Object]</h1>  -->
 <h1>No Of Rooms : {{ roomsCount$ | async }}</h1>
