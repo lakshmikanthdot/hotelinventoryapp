@@ -21,10 +21,14 @@ document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
 <!-- {{ rooms?.availableRooms ?? "No Room" }} -->
 
 <!-- {{ roomList | json }} -->
-<div *ngIf="selectedRoom">{{ selectedRoom | json }}</div>
-<!-- <div>
-  <button class="btn btn-success" (click)="addRoom()">Add Room</button>
-</div> -->
+<div *ngIf="selectedRoom">
+  {{ selectedRoom | json }}
+  <h2>getting from child app-room-list</h2>
+</div>
+<div>
+  <button class="btn btn-success" routerLink="add">Add Room</button>
+</div>
+<router-outlet></router-outlet>
 <h1>{{ getError$ | async }}</h1>
 <!-- <h1>{{ roomsCount$ }} gives [object Object]</h1>  -->
 <h1>No Of Rooms : {{ roomsCount$ | async }}</h1>

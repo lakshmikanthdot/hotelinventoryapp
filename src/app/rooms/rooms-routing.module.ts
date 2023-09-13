@@ -8,14 +8,17 @@ const routes: Routes = [
   {
     path: 'rooms',
     component: RoomsComponent,
-  },
-  {
-    path: 'rooms/add',
-    component: RoomsAddComponent,
-  },
-  {
-    path: 'rooms/:roomId',
-    component: RoomsBookingComponent,
+    children: [
+      {
+        // place the add before the dynamic route because it will take as place holder give output Booking Room add
+        path: 'add',
+        component: RoomsAddComponent,
+      },
+      {
+        path: ':roomId',
+        component: RoomsBookingComponent,
+      },
+    ],
   },
 ];
 

@@ -18,13 +18,14 @@ export class RoomsBookingComponent implements OnInit {
   //   params.get('roomId');
   // });
   id$ = this.router.paramMap.pipe(map((params) => params.get('roomId')));
+
   constructor(private router: ActivatedRoute) {}
 
   ngOnInit(): void {
     // 1st method memory lekage
     // this.router.params.subscribe((params) => {
-    //   // Property 'roomId' comes from an index signature, so it must be accessed with ['roomId']
     //   // this.id = params.roomId;
+    //   // Property 'roomId' comes from an index signature, so it must be accessed with ['roomId']
     //   this.id = params['roomId'];
     //   console.log(params);
     // });
