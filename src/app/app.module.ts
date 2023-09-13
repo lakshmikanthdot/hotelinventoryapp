@@ -26,6 +26,7 @@ import { RoomsBookingComponent } from './rooms/rooms-booking/rooms-booking.compo
 import { RoomsAddComponent } from './rooms/rooms-add/rooms-add.component';
 import { LoginComponent } from './login/login.component';
 import { HoverDirective } from './hover.directive';
+import { EmailvalidatorDirective } from './emailvalidator/emailvalidator.directive';
 
 function initFactory(initService: InitService) {
   return () => initService.init();
@@ -44,6 +45,7 @@ function initFactory(initService: InitService) {
     RoomsAddComponent,
     LoginComponent,
     HoverDirective,
+    EmailvalidatorDirective,
   ],
   imports: [
     BrowserModule,
