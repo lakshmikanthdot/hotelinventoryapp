@@ -22,6 +22,7 @@ import {
   throwError,
 } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
+import { ConfigService } from '../service/config.service';
 
 @Component({
   selector: 'app-rooms',
@@ -87,7 +88,10 @@ export class RoomsComponent
   // Dependency injection
   // general we will create instance
   // roomservice = new RoomsService();
-  constructor(@SkipSelf() private roomsService: RoomsService) {}
+  constructor(
+    @SkipSelf() private roomsService: RoomsService,
+    private configservice: ConfigService
+  ) {}
 
   ngOnInit(): void {
     // this.roomList = this.roomsService.getRooms(); // if we use as http error : Type 'Observable<Object>' is missing the following properties from type 'RoomList[]': length, pop, push, concat, and 27 more.ts(2740)

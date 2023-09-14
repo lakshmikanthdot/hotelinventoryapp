@@ -23,6 +23,7 @@ import { LoginComponent } from './login/login.component';
 import { HoverDirective } from './hover.directive';
 import { EmailvalidatorDirective } from './emailvalidator/emailvalidator.directive';
 import { HeaderModule } from './header/header.module';
+import { RouteConfigToken } from './service/routeConfig.service';
 
 function initFactory(initService: InitService) {
   return () => initService.init();
@@ -57,6 +58,7 @@ function initFactory(initService: InitService) {
     { provide: urlService, useValue: urlValue },
     // { provide: APP_SERVICE_CONFIG, useValue: APP_CONFIG },
     { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptor, multi: true },
+    { provide: RouteConfigToken, useValue: { title: 'Lucky From APP Module' } },
     {
       provide: APP_INITIALIZER,
       useFactory: initFactory,
