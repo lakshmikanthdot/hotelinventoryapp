@@ -30,7 +30,7 @@
     <td>{{ room.rating | number : "1.0-1" }}</td>
     <td>
       <!-- <button class="btn btn-primary" (click)="selectRoom(room)">Select</button> -->
-      <!-- navigate to the roomsbookingcomponent -->
+      <!-- navigate to the roomsbookingcomponent creating path and dynamic route add roomid  -->
       <button
         class="btn btn-primary"
         [routerLink]="['/rooms', room.roomNumber]"
