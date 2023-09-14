@@ -13,6 +13,8 @@ import { LoggerService } from './logger.service';
 import { LocalStorageToken } from './localstorage.token';
 import { InitService } from './init.service';
 import { ConfigService } from './service/config.service';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { filter } from 'rxjs';
 // import { item } from './rooms/rooms';
 
 @Component({
@@ -32,13 +34,30 @@ export class AppComponent implements OnInit {
     @Optional() private loggerService: LoggerService,
     @Inject(LocalStorageToken) private localStorages: any,
     private initService: InitService,
-    private configservice: ConfigService
+    private configservice: ConfigService,
+    private router: Router
   ) {
     console.log(initService.config);
     // console.log(initService.init);
   }
 
   ngOnInit() {
+    // this.router.events.subscribe((event) => console.log(event)); // 12 events
+
+    // show loader
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationStart))
+      .subscribe((e) => {
+        console.log('Navigation Started');
+      });
+
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((e) => {
+        console.log('Navigation Ended');
+      });
+
+    // loader ended
     this.name.nativeElement.innerText = 'Hilton Hotel by element reference';
     this.loggerService?.log('Appcomponent.NgOnInit() from @Optional()'); // it we not use ? terminery operator Cannot read properties of null (reading 'log')
     this.localStorages.setItem('Hotel Name', 'Hilton Hotel');
