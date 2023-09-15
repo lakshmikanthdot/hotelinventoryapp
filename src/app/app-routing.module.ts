@@ -22,6 +22,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./rooms/rooms.module').then((m) => m.RoomsModule),
     canActivate: [LoginGuard],
+    canLoad: [LoginGuard],
   },
   {
     path: 'employee',
@@ -33,6 +34,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./booking/booking.module').then((m) => m.BookingModule),
     canActivate: [LoginGuard],
+    canLoad: [LoginGuard],
   },
 
   {
