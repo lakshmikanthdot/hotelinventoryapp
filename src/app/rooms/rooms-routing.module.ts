@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { RoomsComponent } from './rooms.component';
 import { RoomsAddComponent } from './rooms-add/rooms-add.component';
 import { RoomsBookingComponent } from './rooms-booking/rooms-booking.component';
+import { RoomGuard } from './guards/room.guard';
 
 const routes: Routes = [
   {
     path: '',
     component: RoomsComponent,
+    canActivateChild: [RoomGuard],
     children: [
       {
         // place the add before the dynamic route because it will take as place holder give output Booking Room add
