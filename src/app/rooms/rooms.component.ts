@@ -162,7 +162,7 @@ export class RoomsComponent
   ngAfterViewInit(): void {
     // console.log(this.headerComponent); // HeaderComponent {title: '', __ngContext__: LComponentView(78)}
     this.headerComponent.title = 'Rooms View';
-    this.headerChildernComponent.last.title = 'Last title';
+    this.headerChildernComponent.last.title = 'Last Title';
     // this.headerChildernComponent.get(0)?.title = "FirstT itle"
     // reusable and drop down records angular material use viewchilder at multiple places
   }

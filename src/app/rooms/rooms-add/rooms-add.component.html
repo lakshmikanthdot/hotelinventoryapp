@@ -1,12 +1,12 @@
 <!-- two way data binding -->
-<h1>pristine: {{ roomsForm.pristine }}</h1>
+<!-- <h1>pristine: {{ roomsForm.pristine }}</h1>
 <h1>dirty: {{ roomsForm.dirty }}</h1>
 <h1>valid: {{ roomsForm.valid }}</h1>
 <h1>invalid: {{ roomsForm.invalid }}</h1>
 <h1>value: {{ roomsForm.value | json }}</h1>
 <div *ngIf="successMessage !== ''" class="alert alert-success">
   {{ successMessage }}
-</div>
+</div> -->
 <!-- HTML5 Validator -->
 
 <!-- email, patten etc....  -->
@@ -30,6 +30,7 @@
       name="roomType"
       [(ngModel)]="room.roomType"
       placeholder="Room Type"
+      [ngModelOptions]="{ updateOn: 'blur' }"
     />
   </div>
   <div class="form-group">
