@@ -24,6 +24,7 @@ import { HoverDirective } from './hover.directive';
 import { EmailvalidatorDirective } from './emailvalidator/emailvalidator.directive';
 import { HeaderModule } from './header/header.module';
 import { RouteConfigToken } from './service/routeConfig.service';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 function initFactory(initService: InitService) {
   return () => initService.init();
@@ -53,6 +54,7 @@ function initFactory(initService: InitService) {
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatSnackBarModule,
   ],
   providers: [
     { provide: urlService, useValue: urlValue },

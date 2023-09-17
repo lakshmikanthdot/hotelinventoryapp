@@ -23,6 +23,7 @@ import {
 } from 'rxjs';
 import { HttpEventType } from '@angular/common/http';
 import { ConfigService } from '../service/config.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-rooms',
@@ -43,6 +44,9 @@ export class RoomsComponent
     availableRooms: 10,
     bookedRooms: 5,
   };
+
+  // formcontrol filter search
+  priceFilter = new FormControl(0);
 
   totalBytes = 0;
   subscription!: Subscription;

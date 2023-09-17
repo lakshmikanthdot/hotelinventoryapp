@@ -4,22 +4,23 @@ import { RoomsComponent } from './rooms.component';
 import { RoomsAddComponent } from './rooms-add/rooms-add.component';
 import { RoomsBookingComponent } from './rooms-booking/rooms-booking.component';
 import { RoomGuard } from './guards/room.guard';
+import { BookingComponent } from '../booking/booking.component';
 
 const routes: Routes = [
   {
     path: '',
     component: RoomsComponent,
-    canActivateChild: [RoomGuard],
+    // canActivateChild: [RoomGuard],
     children: [
       {
         // place the add before the dynamic route because it will take as place holder give output Booking Room add
         path: 'add',
         component: RoomsAddComponent,
       },
-      {
-        path: ':roomId',
-        component: RoomsBookingComponent,
-      },
+      // {
+      //   path: ':roomId',
+      //   component: RoomsBookingComponent,
+      // },
     ],
   },
 ];

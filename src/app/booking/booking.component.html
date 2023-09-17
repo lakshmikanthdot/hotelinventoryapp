@@ -2,6 +2,8 @@
 {{ bookingForm.pristine | json }}
 {{ bookingForm.value | json }} -->
 
+{{ bookingForm.invalid | json }}
+{{ bookingForm.valid | json }}
 <!-- guestEmail: new FormControl(''),
 guestName: new FormControl(''),
       checkinDate: new FormControl(''),
@@ -81,7 +83,7 @@ guestName: new FormControl(''),
       formControlName="guestName"
       placeholder="Guest Name"
     />
-    <!-- {{ bookingForm.get("guestName")?.errors | json }} -->
+    {{ bookingForm.get("guestName")?.errors | json }}
     <mat-error *ngIf="bookingForm.get('guestName')?.hasError('minlength')"
       >Guest Name should be Minimum 5 Characters!</mat-error
     >
@@ -134,6 +136,7 @@ guestName: new FormControl(''),
     />
     <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
     <mat-datepicker #picker1></mat-datepicker>
+    {{ bookingForm.get("checkoutDate")?.errors | json }}
   </mat-form-field>
   <mat-form-field class="example-full-width">
     <mat-label>Booking Date</mat-label>

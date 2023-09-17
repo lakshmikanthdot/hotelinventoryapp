@@ -1,6 +1,6 @@
 <!-- child & Dumb component -->
 <h2>{{ title }}</h2>
-<h2>ok</h2>
+<!-- <h2>ok</h2> -->
 <!--it is getting from the parent element  -->
 
 <!-- {{ roomList[0].price }} -->
@@ -18,7 +18,12 @@
   </tr>
   <tr
     [ngClass]="e ? 'even' : 'odd'"
-    *ngFor="let room of rooms; let e = even; let o = odd; let i = index"
+    *ngFor="
+      let room of rooms | filter : price;
+      let e = even;
+      let o = odd;
+      let i = index
+    "
   >
     <td>{{ i + 1 }}</td>
     <td>{{ e ? "EVEN" : "ODD" }}</td>
@@ -33,7 +38,7 @@
       <!-- navigate to the roomsbookingcomponent creating path and dynamic route add roomid  -->
       <button
         class="btn btn-primary"
-        [routerLink]="['/rooms', room.roomNumber]"
+        [routerLink]="['/booking', room.roomNumber]"
       >
         Book Room
       </button>

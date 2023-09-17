@@ -8,7 +8,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { BookingService } from './booking.service';
-import { exhaustMap, mergeMap, switchMap } from 'rxjs';
+import { exhaustMap, map, mergeMap, switchMap } from 'rxjs';
+import { customValidator } from './validators/custom-validators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-booking',
@@ -25,10 +27,14 @@ export class BookingComponent implements OnInit {
   constructor(
     private configservice: ConfigService,
     private fb: FormBuilder,
-    private bookingService: BookingService
+    private bookingService: BookingService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    const roomId = this.route.snapshot.paramMap.get('roomId');
+    // const id$ = this.route.paramMap.pipe(map((params) => params.get('roomId')));
+
     this.bookingForm = this.fb.group(
       {
         // roomId: new FormControl({ value: '2', disabled: true }),
@@ -36,10 +42,15 @@ export class BookingComponent implements OnInit {
 
         // we can write roomId : [''],
         // mobileNumber: ['',[Validators.required]],
-        roomId: new FormControl('', { validators: [Validators.required] }),
+        roomId: new FormControl(
+          { value: roomId, disabled: true },
+          { validators: [Validators.required] }
+        ),
         guestName: new FormControl('', [
           Validators.required,
           Validators.minLength(5),
+          customValidator.validateName,
+          customValidator.validateSpecialChar('*'),
         ]),
         guestEmail: new FormControl('', {
           updateOn: 'blur',
@@ -70,7 +81,8 @@ export class BookingComponent implements OnInit {
         terms: new FormControl(false, {
           validators: [Validators.requiredTrue],
         }),
-      }
+      },
+      { updateOn: 'blur', validators: [customValidator.validateDate] }
       // effect on total entire value
       // { updateOn: 'blur' }
     );
@@ -147,7 +159,6 @@ export class BookingComponent implements OnInit {
       // if we not add all values error Must supply a value for form control at index: 0
       // we are removing the checkoutDate setValue throw error because every control need to set but patch it igrone the error
       // Must supply a value for form control with name: 'checkoutDate'.
-      roomId: '2',
       guestName: 'lucky',
       guestEmail: 'test@gmai.com',
       mobileNumber: '8008781888',

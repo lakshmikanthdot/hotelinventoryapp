@@ -1,17 +1,17 @@
 <!-- <h1>Welcome to {{ hotelName }}</h1> -->
-<app-header></app-header>
+<!-- <app-header></app-header> -->
 <!-- <app-header></app-header>
 <app-header></app-header> -->
 
 <!-- {{ rooms$ | async | json }} -->
 
-<div [hidden]="hideRooms">
+<!-- <div [hidden]="hideRooms">
   Number of Rooms :
   <div
     [ngStyle]="{ color: rooms.availableRooms ? 'lightgreen' : 'red' }"
     [innerText]="numberOfRooms"
   ></div>
-</div>
+</div> -->
 
 <!-- this is same as in javascript
 document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
@@ -21,17 +21,17 @@ document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
 <!-- {{ rooms?.availableRooms ?? "No Room" }} -->
 
 <!-- {{ roomList | json }} -->
-<div *ngIf="selectedRoom">
+<!-- <div *ngIf="selectedRoom">
   {{ selectedRoom | json }}
   <h2>getting from child app-room-list</h2>
-</div>
+</div> -->
 <div>
   <button class="btn btn-success" routerLink="add">Add Room</button>
 </div>
 <router-outlet></router-outlet>
-<h1>{{ getError$ | async }}</h1>
+<!-- <h1>{{ getError$ | async }}</h1> -->
 <!-- <h1>{{ roomsCount$ }} gives [object Object]</h1>  -->
-<h1>No Of Rooms : {{ roomsCount$ | async }}</h1>
+<!-- <h1>No Of Rooms : {{ roomsCount$ | async }}</h1> -->
 
 <!-- <div *ngIf="hideRooms">
   <app-rooms-list
@@ -47,19 +47,30 @@ document.getElementById('numberOfRooms').innterText = numberOfRooms ||  -->
     [title]="title"
     (selectedRoom)="selectRoom($event)"
   ></app-rooms-list> -->
-
+{{ priceFilter | json }}
+<div>
+  <input
+    type="number"
+    class="form-control"
+    placeholder="Price"
+    [formControl]="priceFilter"
+  />
+  <!-- we dont have form group so we make propety binding . it is control so they have all the properties-->
+</div>
 <div *ngIf="rooms$ | async as room">
+  <!-- apply value filter to room list -->
   <app-rooms-list
     [rooms]="room"
     [title]="title"
+    [price]="priceFilter.value"
     (selectedRoom)="selectRoom($event)"
   ></app-rooms-list>
   <!-- error modify the ts file rooms-list.compoent.html to @input null
     the  Type 'RoomList[] | null' is not assignable to type 'RoomList[]'.
   Type 'null' is not assignable to type 'RoomList[]'.ngtsc(2322) -->
 </div>
-<button class="btn btn-info" (click)="toggle()">Toggle</button>
+<!-- <button class="btn btn-info" (click)="toggle()">Toggle</button>
 <button class="btn btn-primary" (click)="editRoom()">Edit</button>
 <button class="btn btn-danger" (click)="deleteRoom()">Delete</button>
 
-<h1>{{ totalBytes }} Loaded</h1>
+<h1>{{ totalBytes }} Loaded</h1> -->

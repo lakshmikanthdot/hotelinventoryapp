@@ -15,11 +15,15 @@ import { RoomList } from '../rooms';
   selector: 'app-rooms-list',
   templateUrl: './rooms-list.component.html',
   styleUrls: ['./rooms-list.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoomsListComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() rooms: RoomList[] | null = []; // get the data from parent
+  @Input() rooms: RoomList[] = []; // get the data from parent
   // assign null because of the async pipe throw error rooms.component.html
+
+  //filter
+
+  @Input() price: number = 0;
 
   @Input() title: string = '';
 
